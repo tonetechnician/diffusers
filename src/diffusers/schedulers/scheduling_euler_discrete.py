@@ -147,7 +147,7 @@ class EulerDiscreteScheduler(SchedulerMixin, ConfigMixin):
         model_output: torch.FloatTensor,
         timestep: Union[float, torch.FloatTensor],
         sample: torch.FloatTensor,
-        generator=None,
+        generator: torch.Generator,
         order: int = 4,
         s_churn: float = 0.0,
         s_tmin: float = 0.0,
