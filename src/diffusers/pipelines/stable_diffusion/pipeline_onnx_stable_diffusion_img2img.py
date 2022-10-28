@@ -320,6 +320,8 @@ class OnnxStableDiffusionImg2ImgPipeline(DiffusionPipeline):
         if accepts_eta:
             extra_step_kwargs["eta"] = eta
 
+        extra_step_kwargs["generator"] = generator
+
         latents = init_latents
 
         t_start = max(num_inference_steps - init_timestep + offset, 0)

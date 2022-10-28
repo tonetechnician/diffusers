@@ -147,6 +147,8 @@ class EulerDiscreteScheduler(SchedulerMixin, ConfigMixin):
         model_output: torch.FloatTensor,
         timestep: Union[float, torch.FloatTensor],
         sample: torch.FloatTensor,
+        generator=None,
+        order: int = 4,
         s_churn: float = 0.0,
         s_tmin: float = 0.0,
         s_tmax: float = float("inf"),
@@ -201,7 +203,9 @@ class EulerDiscreteScheduler(SchedulerMixin, ConfigMixin):
         sigma = self.sigmas[step_index]
 
         gamma = min(s_churn / (len(self.sigmas) - 1), 2**0.5 - 1) if s_tmin <= sigma <= s_tmax else 0.0
-        eps = torch.randn_like(sample) * s_noise
+
+        noise = torch.randn(sample.shape, dtype=sample.dtype, generator=generator, device=generator.device)
+        eps = noise * s_noise
         sigma_hat = sigma * (gamma + 1)
 
         if gamma > 0:
